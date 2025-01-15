@@ -1,5 +1,7 @@
 ﻿using author.Models;
 using author.Service;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,34 +12,39 @@ namespace author
     /// </summary>
     public partial class AdminPage : Page
     {
-        private readonly UserDb _database;
+        public ObservableCollection<User> DisplayUsers { get; set; }
+        private UserDb _database;
 
         public AdminPage(UserDb userDatabase)
         {
             InitializeComponent();
             _database = userDatabase;
-            userListBox.ItemsSource = _database.Users;
-        }
-        private void updateUnconfirmedUsers()
-        {
-            userListBox.Items.Clear();
-            userListBox.ItemsSource = _database.Users;
-        }
 
+            DisplayUsers = new ObservableCollection<User>(_database.GetUnconfirmedUsers().ToList());
+            updateUnconfirmedUsers();
+        }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new LoginPage(_database));
         }
-
+        private void updateUnconfirmedUsers()
+        { if (DisplayUsers.Count > 0)
+            {
+                userListBox.ItemsSource = DisplayUsers;
+                userListViewer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                userListViewer.Visibility = Visibility.Hidden;
+            }
+        }
         private void AdminConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (User user in _database.GetUnconfirmedUsers())
+            if (sender is Button button && button.Tag is User user)
             {
                 _database.ConfirmUser(user);
+                DisplayUsers.Remove(user);
             }
-
-            MessageBox.Show("Все пользователи подтверждены.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-
             updateUnconfirmedUsers();
         }
     }

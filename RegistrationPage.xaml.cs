@@ -18,6 +18,10 @@ namespace author
             _database = userDatabase;
         }
 
+        private void CheckPasswordGenerate(object sender, RoutedEventArgs e)
+        {
+            PasswordTextBox.Text = AuthorizationService.GeneratePassword();
+        }
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             string firstName = FirstNameTextBox.Text;
@@ -32,12 +36,6 @@ namespace author
                 return;
             }
 
-            if (GeneratePasswordCheckBox.IsChecked == true)
-            {
-                password = AuthorizationService.GeneratePassword();
-                PasswordTextBox.Text = password;
-            }
-
             User user = new User
             {
                 FirstName = firstName,
@@ -50,6 +48,7 @@ namespace author
 
             _database.AddUser(user);
             MessageBox.Show("Пользователь успешно зарегистрирован!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService.Navigate(new LoginPage(_database));
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

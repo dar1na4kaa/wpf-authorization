@@ -8,6 +8,10 @@ namespace author.Service
     {
         public List<User> Users { get; set; } = new List<User>();
 
+        public User getUserByLogin(string login)
+        {
+            return Users.Find(x => x.Login == login);
+        }
         public bool IsLoginUnique(string login)
         {
             return Users.All(u => u.Login != login);

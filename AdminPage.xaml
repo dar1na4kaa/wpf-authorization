@@ -12,20 +12,22 @@
         <StackPanel Background="White">
             <TextBlock Text="Панель администратора" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0 0 0 20" />
             <TextBlock Text="Неподтверждённые пользователи:" FontWeight="Bold" Margin="0 0 0 10" />
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                <ListBox x:Name="userListBox" Margin="0 0 20 20" >
+            <ScrollViewer x:Name="userListViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Visibility="Hidden">
+                <ListBox x:Name="userListBox" Margin="0 0 20 20" MinHeight="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{Binding LastName}" Width="200" VerticalAlignment="Center"/>
-                                <Button Content="Подтвердить" Background="Orange" Width="100" Tag="{Binding}"/>
+                            <StackPanel Orientation="Horizontal" Margin="15" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Login}" Width="100" />
+                                <TextBlock Text="{Binding LastName}" Width="100" />
+                                <TextBlock Text="{Binding FirstName}" Width="100" />
+                                <TextBlock Text="{Binding Position}" Width="100" />
+                                <Button Content="Подтвердить" Background="Orange" Width="100" Tag="{Binding}" Click="AdminConfirmButton_Click"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </ScrollViewer>
-            <Button Content="Подтвердить всех пользователей" Background="#FF9800" Foreground="White" Padding="10" Click="AdminConfirmButton_Click" />
-            <Button Content="Выйти" Background="#FF9800" Foreground="White" Padding="10" Click="BackButton_Click" />
+            <Button Content="Выйти" Background="#FF9800" Foreground="White" Padding="10" Click="BackButton_Click"/>
         </StackPanel>
     </Grid>
 </Page>

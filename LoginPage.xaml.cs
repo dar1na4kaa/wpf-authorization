@@ -26,18 +26,11 @@ namespace author
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginTextBox.Text;
-            string password = PasswordBox.Password;
-
+            string password = PasswordBox.Text;
             User user = _database.Users.FirstOrDefault(u => u.Login == login);
-            if (user == null || AuthorizationService.VerifyPassword(password,user.PasswordHash))
+            if (user == null || !AuthorizationService.VerifyPassword(password, user.PasswordHash))
             {
                 MessageBox.Show("Неверный логин или пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (!user.IsConfirmed)
-            {
-                MessageBox.Show("Ваш аккаунт ещё не подтверждён администратором.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

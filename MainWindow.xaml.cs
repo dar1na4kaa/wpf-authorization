@@ -36,8 +36,6 @@ namespace author
                 PasswordHash = AuthorizationService.HashPassword("admin1234"),
                 IsConfirmed = true,
             };
-            _database.Users.Add(user);
-
             _database.AddUser(user);
 
             MainFrame.Navigate(new LoginPage(_database));

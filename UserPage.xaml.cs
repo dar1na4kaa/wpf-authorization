@@ -29,7 +29,7 @@ namespace author
         }
         private void updateUserInfo()
         {
-            User user = _database.Users.Find(u => u.Login == _username);
+            User user = _database.getUserByLogin(_username);
             if (user.IsConfirmed)
             {
                 UserTextBlock.Text = "Аккаунт подтвержден";
